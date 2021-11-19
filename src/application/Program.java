@@ -1,27 +1,36 @@
 package application;
 
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Program {
 
     public static void main(String[] args) {
 
-        String[] lines = new String [] {"Good morning", "Good afternoon", "Good night"};
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter a folder path: ");
+        String strPath = sc.nextLine();
 
-        String path = "/home/paulo/IdeaProjects/texto";
+        File path = new File(strPath);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))){
-            for (String line : lines){
-                bw.write(line);
-                bw.newLine();
-            }
+        File[] folders = path.listFiles(File::isDirectory);
+        System.out.println("FOLDERS: ");
+
+        for (File folder : folders){
+            System.out.println(folder);
         }
-        catch (IOException e){
-            e.printStackTrace();
+
+        File[] files= path.listFiles(File::isFile);
+        System.out.println("FILES: ");
+        for (File file : files){
+            System.out.println(file);
         }
 
+        //Criando pastas
+        boolean success = new File(strPath + "/subdir").mkdir();
+        System.out.println("Directory created sucessfully: " + success);
+
+        sc.close();
     }
 
 
